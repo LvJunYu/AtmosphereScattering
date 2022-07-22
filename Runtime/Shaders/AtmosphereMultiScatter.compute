@@ -1,0 +1,114 @@
+#pragma kernel NewMultiScattCS
+
+#include "AtmosphereCore.hlsl"
+
+groupshared half3 _MultiScatAs1SharedMem[64];
+groupshared half3 _LSharedMem[64];
+RWTexture2D<half4> _OutputTexture;
+
+[numthreads(1, 1, 64)]
+void NewMultiScattCS(uint3 ThreadId : SV_DispatchThreadID)
+{
+    float2 pixPos = float2(ThreadId.xy) + 0.5f;
+    float2 uv = pixPos / _MultiScatteringLutRes;
+
+    uv = DecodeUvToRange01(uv, _MultiScatteringLutRes);
+
+    half cosSunZenithAngle = uv.x * 2.0 - 1.0;
+    half3 sunDir = half3(0.0, cosSunZenithAngle, sqrt(saturate(1.0 - cosSunZenithAngle * cosSunZenithAngle)));
+    // We adjust viewHeight according to PLANET_RADIUS_OFFSET to be in a valid range. In case it's right on the atmosphere boundary.
+    float viewHeight = _BottomRadius + saturate(uv.y + _PLANET_RADIUS_OFFSET) * (_TopRadius - _BottomRadius -
+        _PLANET_RADIUS_OFFSET);
+
+    float3 viewPos = float3(0.0f, viewHeight, 0.0f);
+    half3 viewDir = half3(0.0, 1.0, 0.0);
+
+    const half sampleCountIni = 20; // a minimum set of step is required for accuracy unfortunately
+
+    const half sphereSolidAngle = 4.0 * PI;
+    const half isotropicPhase = 1.0 / sphereSolidAngle;
+
+
+    #define SQRTSAMPLECOUNT 8
+    const half sqrtSample = half(SQRTSAMPLECOUNT);
+    half i = 0.5 + half(ThreadId.z / SQRTSAMPLECOUNT);
+    half j = 0.5 + half(ThreadId.z - half((ThreadId.z / SQRTSAMPLECOUNT) * SQRTSAMPLECOUNT));
+    {
+        half randA = i / sqrtSample;
+        half randB = j / sqrtSample;
+        half theta = 2.0 * PI * randA;
+        half phi = acos(1.0 - 2.0 * randB);
+        // uniform distribution https://mathworld.wolfram.com/SpherePointPicking.html
+        //phi = PI * randB;						// bad non uniform
+        half cosPhi = cos(phi);
+        half sinPhi = sin(phi);
+        half cosTheta = cos(theta);
+        half sinTheta = sin(theta);
+        viewDir.x = cosTheta * sinPhi;
+        viewDir.y = cosPhi;
+        viewDir.z = sinTheta * sinPhi;
+        SingleScatteringResult result = IntegrateScatteredLuminance(viewPos, viewDir, sunDir, 1.0, true, 1.0,
+                                                                    sampleCountIni, -1.0,
+                                                                    false, false);
+
+        _MultiScatAs1SharedMem[ThreadId.z] = result.MultiScatAs1 * sphereSolidAngle / (sqrtSample * sqrtSample);
+        _LSharedMem[ThreadId.z] = result.L * sphereSolidAngle / (sqrtSample * sqrtSample);
+    }
+    #undef SQRTSAMPLECOUNT
+
+    GroupMemoryBarrierWithGroupSync();
+
+    // 64 to 32
+    if (ThreadId.z < 32)
+    {
+        _MultiScatAs1SharedMem[ThreadId.z] += _MultiScatAs1SharedMem[ThreadId.z + 32];
+        _LSharedMem[ThreadId.z] += _LSharedMem[ThreadId.z + 32];
+    }
+    GroupMemoryBarrierWithGroupSync();
+
+    // 32 to 16
+    if (ThreadId.z < 16)
+    {
+        _MultiScatAs1SharedMem[ThreadId.z] += _MultiScatAs1SharedMem[ThreadId.z + 16];
+        _LSharedMem[ThreadId.z] += _LSharedMem[ThreadId.z + 16];
+    }
+    GroupMemoryBarrierWithGroupSync();
+
+    // 16 to 8 (16 is thread group min hardware size with intel, no sync required from there)
+    if (ThreadId.z < 8)
+    {
+        _MultiScatAs1SharedMem[ThreadId.z] += _MultiScatAs1SharedMem[ThreadId.z + 8];
+        _LSharedMem[ThreadId.z] += _LSharedMem[ThreadId.z + 8];
+    }
+    GroupMemoryBarrierWithGroupSync();
+    if (ThreadId.z < 4)
+    {
+        _MultiScatAs1SharedMem[ThreadId.z] += _MultiScatAs1SharedMem[ThreadId.z + 4];
+        _LSharedMem[ThreadId.z] += _LSharedMem[ThreadId.z + 4];
+    }
+    GroupMemoryBarrierWithGroupSync();
+    if (ThreadId.z < 2)
+    {
+        _MultiScatAs1SharedMem[ThreadId.z] += _MultiScatAs1SharedMem[ThreadId.z + 2];
+        _LSharedMem[ThreadId.z] += _LSharedMem[ThreadId.z + 2];
+    }
+    GroupMemoryBarrierWithGroupSync();
+    if (ThreadId.z < 1)
+    {
+        _MultiScatAs1SharedMem[ThreadId.z] += _MultiScatAs1SharedMem[ThreadId.z + 1];
+        _LSharedMem[ThreadId.z] += _LSharedMem[ThreadId.z + 1];
+    }
+    GroupMemoryBarrierWithGroupSync();
+    if (ThreadId.z > 0)
+        return;
+
+    half3 MultiScatAs1 = _MultiScatAs1SharedMem[0] * isotropicPhase; // Equation 7 f_ms
+    half3 InScatteredLuminance = _LSharedMem[0] * isotropicPhase; // Equation 5 L_2ndOrder
+
+    // For a serie, sum_{n=0}^{n=+inf} = 1 + r + r^2 + r^3 + ... + r^n = 1 / (1.0 - r), see https://en.wikipedia.org/wiki/Geometric_series 
+    const half3 r = MultiScatAs1;
+    const half3 SumOfAllMultiScatteringEventsContribution = 1.0 / (1.0 - r);
+    half3 L = InScatteredLuminance * SumOfAllMultiScatteringEventsContribution; // Equation 10 Psi_ms
+
+    _OutputTexture[ThreadId.xy] = half4(L, 1.0);
+}
