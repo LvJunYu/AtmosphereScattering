@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
+// [ExecuteInEditMode]
 class SunController : MonoBehaviour
 {
     public Transform DirLightTransform;

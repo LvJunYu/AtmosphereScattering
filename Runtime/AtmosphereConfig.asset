@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d71d57eb9b05814a9adfaa080aeb452, type: 3}
   m_Name: AtmosphereConfig
   m_EditorClassIdentifier: 
-  ForceUpdate: 1
+  ForceUpdate: 0
   generalParameters:
     SunRadianceColor: {r: 1, g: 1, b: 1, a: 1}
     SunRadianceIntensity: 5
