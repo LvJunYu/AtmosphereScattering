@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d71d57eb9b05814a9adfaa080aeb452, type: 3}
+  m_Name: AtmosphereConfigForWater
+  m_EditorClassIdentifier: 
+  ForceUpdate: 0
+  generalParameters:
+    SunRadianceColor: {r: 1, g: 1, b: 1, a: 1}
+    SunRadianceIntensity: 3
+    UpdateMainLightByAtmosphere: 1
+    UpdateAmbientByAtmosphere: 1
+    AtmosphereFog: 1
+    AerialPerspective: 0
+    DensityScale: 3
+    MultiScattering: 1
+    Shadowmap: 1
+    MinSteps: 40
+    MaxSteps: 40
+  sunDiskParameters:
+    SunDisk: 1
+    SunSize: 0.143
+    SunDiskBrightness: 0.114
+    SunDiskBrightnessMax: 50
+    SunLimbDarken: 1
+    SunLimbDarkenIntensity: 1
+    SunTransmittancedPerPixel: 1
+  atmosphereParameters:
+    RayleighScaleHeight: 8
+    RayleighScatteringColor: {r: 0.16078432, g: 0.37254903, b: 0.9137255, a: 1}
+    RayleighScatteringScale: 0.03624
+    MieScaleHeight: 1.2
+    MieScatteringColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
+    MieScatteringScale: 0.00692
+    MieAbsorptionColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
+    MieAbsorptionScale: 0.00077
+    MiePhaseG: 0.8
+    OzoneAbsorptionExtinctionColor: {r: 0.3254902, g: 0.94509804, b: 0.043137256,
+      a: 1}
+    OzoneAbsorptionExtinctionScale: 0.00199
+    GroundAlbedo: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
+    BottomRadius: 6360
+    TopRadius: 6460
+  shaders:
+    transmittanceLut: {fileID: 4800000, guid: cecb51386cc9b5147b47e246823d4753, type: 3}
+    multiScatterCS: {fileID: 7200000, guid: 4235d879005f5d14bbe46dc772b69ffd, type: 3}
+    skyViewLut: {fileID: 4800000, guid: d8d2b23e4d7e73b4f98f853a0745a25d, type: 3}
+    atmosphereRaymarch: {fileID: 4800000, guid: 8745344e22914024fa26b9fa94820e87,
+      type: 3}
