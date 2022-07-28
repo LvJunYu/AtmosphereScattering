@@ -36,7 +36,7 @@ MonoBehaviour:
   atmosphereParameters:
     RayleighScaleHeight: 8
     RayleighScatteringColor: {r: 0.16078432, g: 0.37254903, b: 0.9137255, a: 1}
-    RayleighScatteringScale: 0.03624
+    RayleighScatteringScale: 0.362
     MieScaleHeight: 1.2
     MieScatteringColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
     MieScatteringScale: 0.00692
