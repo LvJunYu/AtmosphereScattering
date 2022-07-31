@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d71d57eb9b05814a9adfaa080aeb452, type: 3}
-  m_Name: AtmosphereConfig
+  m_Name: AtmosphereConfigForFog
   m_EditorClassIdentifier: 
   ForceUpdate: 0
   generalParameters:
     SunRadianceColor: {r: 1, g: 1, b: 1, a: 1}
-    SunRadianceIntensity: 5
+    SunRadianceIntensity: 4
     UpdateMainLightByAtmosphere: 1
     UpdateAmbientByAtmosphere: 1
-    AtmosphereFog: 1
+    AtmosphereFog: 0
     AerialPerspective: 0
-    DensityScale: 3
+    DensityScale: 4
     MultiScattering: 1
     Shadowmap: 1
     MinSteps: 40
-    MaxSteps: 41
+    MaxSteps: 40
   sunDiskParameters:
     SunDisk: 1
-    SunSize: 0.15
+    SunSize: 0.054
     SunDiskBrightness: 0.042
     SunDiskBrightnessMax: 50
     SunLimbDarken: 1
@@ -36,10 +36,10 @@ MonoBehaviour:
   atmosphereParameters:
     RayleighScaleHeight: 8
     RayleighScatteringColor: {r: 0.16078432, g: 0.37254903, b: 0.9137255, a: 1}
-    RayleighScatteringScale: 0.03624
+    RayleighScatteringScale: 0.276
     MieScaleHeight: 1.2
     MieScatteringColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
-    MieScatteringScale: 0.00692
+    MieScatteringScale: 0.29
     MieAbsorptionColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
     MieAbsorptionScale: 0.00077
     MiePhaseG: 0.8

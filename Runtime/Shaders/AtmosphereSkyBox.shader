@@ -66,7 +66,7 @@ Shader "Atmosphere/SkyBox"
             {
                 Light light = GetMainLight();
                 half3 viewDir = normalize(input.positionWS);
-                half3 col = RenderSkyBox(viewDir, light.direction, light.color);
+                half3 col = RenderSky(viewDir, light.direction, light.color);
                 return half4(col, 1);
             }
             ENDHLSL

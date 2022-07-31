@@ -349,7 +349,7 @@ half3 RenderSunDisk(half3 sunDir, half3 viewDir, half3 sunColor, half3 upVector,
     #endif
 }
 
-half3 RenderSkyBox(half3 viewDirWS, half3 sunDirWS, half3 sunColor)
+half3 RenderSky(half3 viewDirWS, half3 sunDirWS, half3 sunColor)
 {
     float viewHeight;
     half3 upVector;
@@ -394,7 +394,7 @@ half4 AtmosphereRaymarch(float2 uv, float depth, half3 viewDirWS, half3 sunDirWS
         return half4(0, 0, 0, 1);
         #else
         {
-            half3 col = RenderSkyBox(viewDirWS, sunDirWS, sunColor);
+            half3 col = RenderSky(viewDirWS, sunDirWS, sunColor);
             return half4(col, 0);
         }
         #endif
