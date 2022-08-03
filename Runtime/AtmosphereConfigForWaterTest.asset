@@ -10,42 +10,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d71d57eb9b05814a9adfaa080aeb452, type: 3}
-  m_Name: AtmosphereConfigForFog
+  m_Name: AtmosphereConfigForWaterTest
   m_EditorClassIdentifier: 
   ForceUpdate: 0
   generalParameters:
     SunRadianceColor: {r: 1, g: 1, b: 1, a: 1}
-    SunRadianceIntensity: 4
+    SunRadianceIntensity: 3
     UpdateMainLightByAtmosphere: 1
     UpdateAmbientByAtmosphere: 1
-    AtmosphereFog: 0
+    AtmosphereFog: 1
     AerialPerspective: 0
-    DensityScale: 4
+    DensityScale: 3
     MultiScattering: 1
     Shadowmap: 1
     MinSteps: 40
     MaxSteps: 40
   sunDiskParameters:
     SunDisk: 1
-    SunSize: 0.054
-    SunDiskBrightness: 0.042
+    SunSize: 0.143
+    SunDiskBrightness: 0.114
     SunDiskBrightnessMax: 50
     SunLimbDarken: 1
     SunLimbDarkenIntensity: 1
     SunTransmittancedPerPixel: 1
   atmosphereParameters:
     RayleighScaleHeight: 8
-    RayleighScatteringColor: {r: 0.16078432, g: 0.37254903, b: 0.9137255, a: 1}
-    RayleighScatteringScale: 0.276
+    RayleighScatteringColor: {r: 0.16078432, g: 0.4127981, b: 0.9137255, a: 1}
+    RayleighScatteringScale: 0.244
     MieScaleHeight: 1.2
-    MieScatteringColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
-    MieScatteringScale: 0.29
-    MieAbsorptionColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
-    MieAbsorptionScale: 0.00077
+    MieScatteringColor: {r: 0.2882717, g: 0.6509434, b: 0.28657883, a: 1}
+    MieScatteringScale: 0.03
+    MieAbsorptionColor: {r: 0.3857264, g: 0.6313726, b: 0.19607842, a: 1}
+    MieAbsorptionScale: 0.019
     MiePhaseG: 0.8
-    OzoneAbsorptionExtinctionColor: {r: 0.3254902, g: 0.94509804, b: 0.043137256,
+    OzoneAbsorptionExtinctionColor: {r: 0.39711982, g: 0.043137252, b: 0.94509804,
       a: 1}
-    OzoneAbsorptionExtinctionScale: 0.00199
+    OzoneAbsorptionExtinctionScale: 0.008
     GroundAlbedo: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
     BottomRadius: 6360
     TopRadius: 6460
