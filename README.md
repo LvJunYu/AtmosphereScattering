@@ -4,7 +4,8 @@
 ![](Documentation~/Atmosphere1.png) 
 ![](Documentation~/Atmosphere2.png)
 
-##  [Development Log](https://jojo-lyu.notion.site/Atmosphere-Developing-0216c5732f3a40b78fa9847e79ba342d?pvs=4)
+##  Development Log
+[Development Log](https://jojo-lyu.notion.site/Atmosphere-Developing-0216c5732f3a40b78fa9847e79ba342d?pvs=4)
 ### Pipeline Integration
 
 - [x]  Sky Only - Sky Box
