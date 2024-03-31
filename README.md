@@ -1,4 +1,5 @@
 # Atmospheric Scattering for URP
+A physically based atmospheric scattering rendering solution, designed for mobile platforms and integrated into the Unity URP Pipeline, featuring time-of-day changes, ground-to-space views, multi-scattering, sun disk, and more.
 
 ![](Documentation~/Atmosphere2.gif)
 ![](Documentation~/Atmosphere1.png) 
