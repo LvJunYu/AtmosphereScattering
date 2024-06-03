@@ -37,6 +37,24 @@ A physically based atmospheric scattering rendering solution, designed for mobil
 - [x]  LUT Update Strategy - Data Triger
 - [ ]  LUT Update Strategy -Support Multi-Frames,
 
+## Runtime Folder Structure
+
+- Demo folder
+  * Assets used in demo.
+- Scripts folder
+  * **AtmosphereConfig**: Configuration data for Atmosphere parameters.
+  * **AtmosphereFeature**: Interface for integrating into URP. The Execute method is the render entry point for every frame.
+  * **AtmospherePrecomputeManager**: Contains the core logic to execute all tasks.
+  * **AtmosphereTools**: A set of tools.
+- Shaders folder
+  * **AtmosphereCommon.hlsl**: Contains data structures and tool sets.
+  * **AtmosphereCore.hlsl**: Contains core logic.
+  * **AtmosphereRaymarch.shader**: Render atmosphere, which is essentially a fullscreen render in post-process.
+  * **AtmosphereSkyBox.shader**: Used for the Skybox.
+  * **SkyViewLut.shader**: Render Sky-View LUT; only executed when atmosphere parameters change.
+  * **TransmittanceLut.shader**: Renders Transmittance LUT; only executed when atmosphere parameters change.
+  * **AtmosphereMultiScatter.compute**: A compute shader for multi-scattering; only executed when atmosphere parameters change.
+
 # References
 - [Hillaire20] [A Scalable and Production Ready Sky and Atmosphere Rendering Technique](https://sebh.github.io/publications/egsr2020.pdf)
 - [Bruneton08] [Precomputed Atmospheric Scattering](https://hal.inria.fr/inria-00288758/document)
